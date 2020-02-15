@@ -1,0 +1,28 @@
+Aim: To approximate the volume of a sphere without any prior measurements
+
+To find the area of a circle: πr^2
+where r is the radius of the circle
+
+To find the volume of a sphere: 4/3πr^3
+where r is the radius of the sphere
+
+To find pi:
+
+Why?
+What if we don't know pi?
+It can also be used to approximate the area of other irregular shapes like the bat symbol
+2D shapes can be approximated in real life by tossing a stone randomly into a shape
+Volume of 3d shapes are much much difficult to approximate in real life without computer assistance
+This is a Monte Carlo simulation and can be used for other things like financial modelling, modelling dissipation etc.
+
+How?
+Generate circle and a square around it with the same diameter
+Randomly plot points within the square
+The ratio of dots in the square to in the circle can be used to approximate the area or pi
+
+Extra:
+- Find the optimal number of dots to use. Too many will cause more computation, too few won't provide enough accuracy. There might be a sweet spot before diminishing returns.
+
+- Nice JavaScript visualisation with controls for the number of dots, size of sphere etc
+
+- graph to show number of points vs accuracy

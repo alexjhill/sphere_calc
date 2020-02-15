@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+
+    <style>
+        #square {
+            position: relative;
+            background: pink;
+        } #circle {
+            position: absolute;
+            background: lightgreen;
+            border-radius: 50%;
+        } .dot {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            background: blue;
+        }
+    </style>
+</head>
+<body onload="getRadius()">
+
+    <div id="square">
+        <div id="circle"></div>
+    </div>
+
+    <br>
+
+    <label for="radius">Radius:</label>
+    <input id="radius" name="radius" type="number" value="100"> cm
+    <button onclick="getRadius()" id="radius-btn">Set</button>
+    <button onclick="calculateArea()">Calculate Area</button>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="app.js"></script>
+
+</body>
+</html>
