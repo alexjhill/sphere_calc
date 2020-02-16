@@ -11,47 +11,16 @@ var radius;
 var approxArea;
 var actualArea;
 
-function getRadius() {
-    square = $('#square');
-    circle = $('#circle');
+$(window).on("load resize", function () {
+    var width = $('#square').width();
+    radius = width / 2;
+    $('#square').css('height', width + 'px');
+    loadAreaChart();
+    loadPiChart();
+});
 
-    radius = $("#radius").val();
-
-    $(".dot").remove();
-
-    square.css('width', radius * 2 + 'px');
-    square.css('height', radius * 2 + 'px');
-    circle.css('width', radius * 2 + 'px');
-    circle.css('height', radius * 2 + 'px');
-}
-
-
-function placeDot (i) {
-    var x = Math.floor((Math.random() * (radius * 2)));
-    var y = Math.floor((Math.random() * (radius * 2)));
-    var el = $('<div></div>');
-    el.addClass('dot');
-    el.css('left', x + 'px');
-    el.css('top', y + 'px');
-    square.append(el);
-    return el.position();
-}
-
-function addData(chart, label, approxArea, actualArea) {
-    chart.data.labels.push(label);
-    chart.data.datasets[0].data.push(approxArea);
-    chart.data.datasets[1].data.push(actualArea);
-    chart.update();
-}
-
-
-$( "#run" ).click( async function runSim() {
-    $(".dot").remove();
-    $("#chart").remove();
-    $("#chart-container").append('<canvas id="chart" width="400" height="200"></canvas>');
-
-
-    var ctx = document.getElementById('chart').getContext('2d');
+function loadAreaChart() {
+    var ctx = document.getElementById('area-chart').getContext('2d');
     var chart = new Chart(ctx, {
         // The type of chart we want to create
         type: 'line',
@@ -87,22 +56,99 @@ $( "#run" ).click( async function runSim() {
             }
         }
     });
+    return chart;
+}
+function loadPiChart() {
+    var ctx = document.getElementById('pi-chart').getContext('2d');
+    var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'line',
+
+        // The data for our dataset
+        data: {
+            datasets: [{
+                label: 'Approximated value of PI',
+                backgroundColor: 'tomato',
+                fill: false,
+                borderColor: 'tomato'
+            }, {
+                label: 'Actual value of PI',
+                backgroundColor: 'lightgreen',
+                fill: false,
+                borderColor: 'lightgreen'
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Value of PI'
+                    }
+                }],
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'No. of Points'
+                    }
+                }]
+            }
+        }
+    });
+    return chart;
+}
+
+
+function placeDot () {
+    var x = Math.floor((Math.random() * (radius * 2)));
+    var y = Math.floor((Math.random() * (radius * 2)));
+    var el = $('<div></div>');
+    el.addClass('dot');
+    el.css('left', x + 'px');
+    el.css('top', y + 'px');
+    $('#square').append(el);
+    return el.position();
+}
+
+function addData(chart, label, approx, actual) {
+    chart.data.labels.push(label);
+    chart.data.datasets[0].data.push(approx);
+    chart.data.datasets[1].data.push(actual);
+    chart.update();
+}
+
+
+$( "#run" ).click( async function runSim() {
+    $(".dot").remove();
+    $("#area-chart").remove();
+    $("#pi-chart").remove();
+    $("#chart-container").append('<canvas id="area-chart" width="400" height="200"></canvas>');
+    $("#chart-container").append('<canvas id="pi-chart" width="400" height="200"></canvas>');
+
+    var totalPoints = $('#number-of-points').val();
+    var chartGranularity = $('#chart-granularity').val();
+
+    var areaChart = loadAreaChart();
+    var piChart = loadPiChart();
 
     var pointsInside = 0;
-    var totalPoints = 10000;
 
     for (var i = 0; i < totalPoints; i++) {
         setTimeout(function(i) {
             var centre = {left: radius, top: radius};
-            var point = placeDot(i);
+            var point = placeDot();
             var distance = Math.sqrt(Math.pow((point.left - centre.left), 2) + Math.pow((point.top - centre.top), 2));
             if (distance <= radius) {
                 pointsInside++;
             }
             approxArea = pointsInside / i * Math.pow(radius * 2, 2);
             actualArea = Math.PI * Math.pow(radius, 2);
-            if (i % 100 == 0) {
-                addData(chart, "Point " + i, approxArea, actualArea);
+            approxPi = (pointsInside / i) * 4;
+            actualPi = Math.PI;
+            console.log(approxPi);
+            if (i % chartGranularity == 0) {
+                addData(areaChart, i + " points", approxArea, actualArea);
+                addData(piChart, i + " points", approxPi, actualPi);
             }
         },1 * i,i);
     }
