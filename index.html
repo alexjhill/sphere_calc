@@ -22,6 +22,7 @@
             background: blue;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.css">
 </head>
 <body onload="getRadius()">
 
@@ -32,11 +33,16 @@
     <br>
 
     <label for="radius">Radius:</label>
-    <input id="radius" name="radius" type="number" value="100"> cm
+    <input id="radius" name="radius" type="number" value="300"> cm
     <button onclick="getRadius()" id="radius-btn">Set</button>
-    <button onclick="calculateArea()">Calculate Area</button>
+    <button id="run">Run Simulation</button>
+
+    <div id="chart-container">
+        <canvas id="chart" width="400" height="200"></canvas>
+    </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
     <script src="app.js"></script>
 
 </body>
