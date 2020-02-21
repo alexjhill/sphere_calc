@@ -53,6 +53,10 @@ function loadAreaChart() {
                         labelString: 'No. of Points'
                     }
                 }]
+            },
+            title: {
+                display: true,
+                text: 'Approximated Area of the Circle Compared to the Actual Area of the Circle'
             }
         }
     });
@@ -67,12 +71,12 @@ function loadPiChart() {
         // The data for our dataset
         data: {
             datasets: [{
-                label: 'Approximated value of PI',
+                label: 'Approximated value of π',
                 backgroundColor: 'tomato',
                 fill: false,
                 borderColor: 'tomato'
             }, {
-                label: 'Actual value of PI',
+                label: 'Actual value of π',
                 backgroundColor: 'lightgreen',
                 fill: false,
                 borderColor: 'lightgreen'
@@ -83,7 +87,7 @@ function loadPiChart() {
                 yAxes: [{
                     scaleLabel: {
                         display: true,
-                        labelString: 'Value of PI'
+                        labelString: 'Value of π'
                     }
                 }],
                 xAxes: [{
@@ -92,6 +96,10 @@ function loadPiChart() {
                         labelString: 'No. of Points'
                     }
                 }]
+            },
+            title: {
+                display: true,
+                text: 'Approximated Value of π Compared to the Actual Value of π'
             }
         }
     });
@@ -173,7 +181,7 @@ $( "#run" ).click( async function runSim() {
                 lowestPiDifference = lowestPiDifference.toFixed(10);
                 finalPiDifference = Math.abs(actualPi - approxPi).toFixed(10);
 
-                $("#output-info").html("<h3>Area</h3>Lowest difference: " + lowestAreaDifference + "cm2" + "<br>" + "Final difference: " + finalAreaDifference + "cm2<br><br><h3>PI</h3>Lowest difference: " + lowestPiDifference + "<br>" + "Final difference: " + finalPiDifference);
+                $("#output-info").html("<b>Area</b><br>Lowest difference: " + lowestAreaDifference + "cm2" + "<br>" + "Final difference: " + finalAreaDifference + "cm2<br><b>PI</b><br>Lowest difference: " + lowestPiDifference + "<br>" + "Final difference: " + finalPiDifference);
             }
         },1 * i,i);
     }
