@@ -133,9 +133,12 @@ $( "#run" ).click( async function runSim() {
 
     var pointsInside = 0;
 
-    var lowestDifference;
-    var finalDifference;
+    var lowestAreaDifference;
+    var finalAreaDifference;
     var x;
+    var lowestPiDifference;
+    var finalPiDifference;
+    var y;
 
     for (var i = 0; i < totalPoints; i++) {
         setTimeout(function(i) {
@@ -152,17 +155,25 @@ $( "#run" ).click( async function runSim() {
 
             if ((i + 1) % chartGranularity == 0) {
                 x = Math.abs(actualArea - approxArea);
-                if (x < lowestDifference || lowestDifference == undefined) {
-                    lowestDifference = x;
+                if (x < lowestAreaDifference || lowestAreaDifference == undefined) {
+                    lowestAreaDifference = x;
+                }
+                y = Math.abs(actualPi - approxPi);
+                if (y < lowestPiDifference || lowestPiDifference == undefined) {
+                    lowestPiDifference = y;
                 }
                 addData(areaChart, i + 1 + " points", approxArea, actualArea);
                 addData(piChart, i + 1 + " points", approxPi, actualPi);
             }
 
             if (i + 1 == totalPoints) {
-                lowestDifference = Math.round(lowestDifference);
-                finalDifference = Math.round(Math.abs(actualArea - approxArea));
-                $("#output-info").html("<h3>Area</h3>Lowest difference: " + lowestDifference + "cm2" + "<br>" + "Final difference: " + finalDifference + "cm2<br><br><h3>PI</h3>Lowest difference: " + lowestDifference + "cm2" + "<br>" + "Final difference: " + finalDifference + "cm2");
+                lowestAreaDifference = Math.round(lowestAreaDifference);
+                finalAreaDifference = Math.round(Math.abs(actualArea - approxArea));
+
+                lowestPiDifference = lowestPiDifference.toFixed(10);
+                finalPiDifference = Math.abs(actualPi - approxPi).toFixed(10);
+
+                $("#output-info").html("<h3>Area</h3>Lowest difference: " + lowestAreaDifference + "cm2" + "<br>" + "Final difference: " + finalAreaDifference + "cm2<br><br><h3>PI</h3>Lowest difference: " + lowestPiDifference + "<br>" + "Final difference: " + finalPiDifference);
             }
         },1 * i,i);
     }
