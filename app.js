@@ -133,6 +133,10 @@ $( "#run" ).click( async function runSim() {
 
     var pointsInside = 0;
 
+    var lowestDifference;
+    var finalDifference;
+    var x;
+
     for (var i = 0; i < totalPoints; i++) {
         setTimeout(function(i) {
             var centre = {left: radius, top: radius};
@@ -145,10 +149,20 @@ $( "#run" ).click( async function runSim() {
             actualArea = Math.PI * Math.pow(radius, 2);
             approxPi = (pointsInside / i) * 4;
             actualPi = Math.PI;
-            console.log(approxPi);
-            if (i % chartGranularity == 0) {
-                addData(areaChart, i + " points", approxArea, actualArea);
-                addData(piChart, i + " points", approxPi, actualPi);
+
+            if ((i + 1) % chartGranularity == 0) {
+                x = Math.abs(actualArea - approxArea);
+                if (x < lowestDifference || lowestDifference == undefined) {
+                    lowestDifference = x;
+                }
+                addData(areaChart, i + 1 + " points", approxArea, actualArea);
+                addData(piChart, i + 1 + " points", approxPi, actualPi);
+            }
+
+            if (i + 1 == totalPoints) {
+                lowestDifference = Math.round(lowestDifference);
+                finalDifference = Math.round(Math.abs(actualArea - approxArea));
+                $("#output-info").html("<h3>Area</h3>Lowest difference: " + lowestDifference + "cm2" + "<br>" + "Final difference: " + finalDifference + "cm2<br><br><h3>PI</h3>Lowest difference: " + lowestDifference + "cm2" + "<br>" + "Final difference: " + finalDifference + "cm2");
             }
         },1 * i,i);
     }
